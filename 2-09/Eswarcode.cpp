@@ -1,65 +1,41 @@
-#include <bits/stdc++.h>
-
+#include <iostream>
+#include <string>
 using namespace std;
 
-string ltrim(const string &);
-string rtrim(const string &);
-
-/*
- * Complete the 'palindromeIndex' function below.
- *
- * The function is expected to return an INTEGER.
- * The function accepts STRING s as parameter.
- */
-
 int palindromeIndex(string s) {
-    int k,m=0;
-    string w;
-    int n= s.size();
-   if(n%2==0){
-        k=n/2;
-    }
-    else{
-        k=(n-1)/2;
-    }
-    for(int i=0;i<k;i++){
-        if(s[i]==s[n-i-1]){
-            m++;
+    int n = s.length();
+    
+    // First check if it's already a palindrome
+    bool isPalindrome = true;
+    for (int i = 0; i < n/2; i++) {
+        if (s[i] != s[n-1-i]) {
+            isPalindrome = false;
+            break;
         }
     }
-    if(m==k){
-        return -1;
-    }
-    else{
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                if(j<i){
-                    w[j]=s[j];
-                }
-                else if(j>i){
-                    w[j-1]=s[j]; 
-                }
-            }
-           int h,g=0;
-           int l=w.size();
-            if(l%2==0){
-              h=l/2;
-             }
-             else{
-              h=(l-1)/2;
-             }
-            for(int a=0;a<h;a++){
-                if(w[a]==w[l-a-1]){
-                    g++;
-                }
-            }
-            if(g==h){
-                return i;
+    if (isPalindrome) return -1;
+    
+    // Try removing each character and check if resulting string is palindrome
+    for (int i = 0; i < n; i++) {
+        bool canBePalindrome = true;
+        // Check if string without character at index i is palindrome
+        for (int j = 0, k = 0; j < n-1; j++, k++) {
+            if (k == i) k++; // Skip the removed character
+            if (j >= (n-1)/2) break;
+            
+            // Compare characters from both ends excluding index i
+            int opposite = n-1-j;
+            if (opposite > i) opposite--;
+            
+            if (s[k] != s[opposite]) {
+                canBePalindrome = false;
                 break;
             }
-        } 
+        }
+        if (canBePalindrome) return i;
     }
-   return 0;
+    
+    return -1;
 }
 
 int main()
@@ -71,7 +47,8 @@ int main()
 
     int q = stoi(ltrim(rtrim(q_temp)));
 
-    for (int q_itr = 0; q_itr < q; q_itr++) {
+    for (int q_itr = 0; q_itr < q; q_itr++)
+    {
         string s;
         getline(cin, s);
 
@@ -85,24 +62,24 @@ int main()
     return 0;
 }
 
-string ltrim(const string &str) {
+string ltrim(const string &str)
+{
     string s(str);
 
     s.erase(
         s.begin(),
-        find_if(s.begin(), s.end(), not1(ptr_fun<int, int>(isspace)))
-    );
+        find_if(s.begin(), s.end(), not1(ptr_fun<int, int>(isspace))));
 
     return s;
 }
 
-string rtrim(const string &str) {
+string rtrim(const string &str)
+{
     string s(str);
 
     s.erase(
         find_if(s.rbegin(), s.rend(), not1(ptr_fun<int, int>(isspace))).base(),
-        s.end()
-    );
+        s.end());
 
     return s;
 }
