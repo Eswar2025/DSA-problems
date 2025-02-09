@@ -2,42 +2,56 @@
 #include <string>
 using namespace std;
 
-int palindromeIndex(string s) {
+#include <iostream>
+#include <string>
+using namespace std;
+
+int palindromeIndex(string s)
+{
     int n = s.length();
-    
+
     // First check if it's already a palindrome
     bool isPalindrome = true;
-    for (int i = 0; i < n/2; i++) {
-        if (s[i] != s[n-1-i]) {
+    for (int i = 0; i < n / 2; i++)
+    {
+        if (s[i] != s[n - 1 - i])
+        {
             isPalindrome = false;
             break;
         }
     }
-    if (isPalindrome) return -1;
-    
+    if (isPalindrome)
+        return -1;
+
     // Try removing each character and check if resulting string is palindrome
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++)
+    {
         bool canBePalindrome = true;
         // Check if string without character at index i is palindrome
-        for (int j = 0, k = 0; j < n-1; j++, k++) {
-            if (k == i) k++; // Skip the removed character
-            if (j >= (n-1)/2) break;
-            
+        for (int j = 0, k = 0; j < n - 1; j++, k++)
+        {
+            if (k == i)
+                k++; // Skip the removed character
+            if (j >= (n - 1) / 2)
+                break;
+
             // Compare characters from both ends excluding index i
-            int opposite = n-1-j;
-            if (opposite > i) opposite--;
-            
-            if (s[k] != s[opposite]) {
+            int opposite = n - 1 - j;
+            if (opposite > i)
+                opposite--;
+
+            if (s[k] != s[opposite])
+            {
                 canBePalindrome = false;
                 break;
             }
         }
-        if (canBePalindrome) return i;
+        if (canBePalindrome)
+            return i;
     }
-    
+
     return -1;
 }
-
 int main()
 {
     ofstream fout(getenv("OUTPUT_PATH"));
