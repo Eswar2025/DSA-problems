@@ -13,7 +13,10 @@ struct Node
     Node *next;
 
     // Constructor for Node
-    Node(int val) : data(val), next(nullptr) {}
+    Node(int val) {
+        data = val;
+        next = nullptr;
+    }
 };
 
 // Global head pointer to keep track of the first node
